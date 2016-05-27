@@ -11,7 +11,7 @@ start_link(#pool{start_mfa = {_, _, _} = MFA} = Pool) ->
     supervisor:start_link({local, SupName}, ?MODULE, MFA).
 
 init({Mod, Fun, Args}) ->
-    Worker = {Mod, {Mod, Fun, Args}, temporary, brutal_kill, worker, [Mod]},
+    Worker = {Mod, {Mod, Fun, Args}, temporary, infinity, worker, [Mod]},
     Specs = [Worker],
     Restart = {simple_one_for_one, 1, 1},
     {ok, {Restart, Specs}}.
